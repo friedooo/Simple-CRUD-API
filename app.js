@@ -1,5 +1,8 @@
 const http = require("http");
+require("dotenv").config();
 const PORT = process.env.PORT || 5000;
+
+console.log(process.env.PORT);
 
 const server = http.createServer(async (req, res) => {
   //set the request route
