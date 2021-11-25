@@ -66,9 +66,27 @@ const updatePerson = async (req, res, id) => {
   }
 };
 
+const removePerson = async (req, res, id) => {
+  try {
+    const person = await PersonModel.findById(id);
+
+    if (!person) {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Person Not Found" }));
+    } else {
+      await PersonModel.remove(id);
+      res.writeHead(204, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: `Person ${id} deleted` }));
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   getAllPersons,
   getPerson,
   createPerson,
   updatePerson,
+  removePerson,
 };

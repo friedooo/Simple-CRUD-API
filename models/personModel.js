@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require("uuid");
 
-const persons = require("../data/persons");
+let persons = require("../data/persons");
 
 const findAll = () => {
   return new Promise((resolve, reject) => {
@@ -29,8 +29,14 @@ const update = (id, data) => {
     const index = persons.findIndex((person) => id === person.id);
     persons[index] = { id, ...data };
     console.log(persons[index]);
-    // persons.push(newPerson);
     resolve(persons[index]);
+  });
+};
+
+const remove = (id) => {
+  return new Promise((resolve, reject) => {
+    persons = persons.filter((person) => person.id !== id);
+    resolve(persons);
   });
 };
 
@@ -39,4 +45,5 @@ module.exports = {
   findById,
   create,
   update,
+  remove,
 };
