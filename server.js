@@ -18,17 +18,7 @@ const server = http.createServer((req, res) => {
     getAllPersons(req, res);
   } else if (req.url.match(/\/person\/.*$/) && req.method === "GET") {
     const id = req.url.split("/")[2];
-    console.log(id);
-    if (
-      /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(
-        id
-      )
-    ) {
-      getPerson(req, res, id);
-    } else {
-      res.writeHead(400, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ message: "Bad Request" }));
-    }
+    getPerson(req, res, id);
   } else if (
     (req.url === "/person" || req.url === "/person/") &&
     req.method === "POST"

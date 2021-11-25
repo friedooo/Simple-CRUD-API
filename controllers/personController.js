@@ -13,13 +13,20 @@ const getAllPersons = async (req, res) => {
 const getPerson = async (req, res, id) => {
   try {
     const person = await PersonModel.findById(id);
-
-    if (!person) {
-      res.writeHead(404, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ message: "Person Not Found" }));
+    const v4 = new RegExp(
+      /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/
+    );
+    if (v4.test(id)) {
+      if (!person) {
+        res.writeHead(404, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ message: "Person Not Found" }));
+      } else {
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify(person));
+      }
     } else {
-      res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify(person));
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Bad Request" }));
     }
   } catch (error) {
     console.log(error);
