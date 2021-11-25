@@ -1,0 +1,74 @@
+const PersonModel = require("../models/personModel");
+
+const getAllPersons = async (req, res) => {
+  try {
+    const persons = await PersonModel.findAll();
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(persons));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getPerson = async (req, res, id) => {
+  try {
+    const person = await PersonModel.findById(id);
+
+    if (!person) {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Person Not Found" }));
+    } else {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(person));
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const createPerson = async (req, res) => {
+  try {
+    let body = "";
+    req.on("data", (chunk) => {
+      body += chunk.toString();
+    });
+
+    req.on("end", async () => {
+      const newPerson = await PersonModel.create(JSON.parse(body));
+      res.writeHead(201, { "Content-Type": "application/json" });
+      return res.end(JSON.stringify(newPerson));
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updatePerson = async (req, res, id) => {
+  try {
+    let person = PersonModel.findById(id);
+    if (!person) {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Person Not Found" }));
+    } else {
+      let body = "";
+      req.on("data", (chunk) => {
+        body += chunk.toString();
+      });
+
+      req.on("end", async () => {
+        const updPerson = await PersonModel.update(id, JSON.parse(body));
+        res.writeHead(200, { "Content-Type": "application/json" });
+        return res.end(JSON.stringify(updPerson));
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = {
+  getAllPersons,
+  getPerson,
+  createPerson,
+  updatePerson,
+};
