@@ -5,7 +5,8 @@
   "main": "src/server.js",
   "scripts": {
     "start:dev": "nodemon ./src/server",
-    "start:prod": "webpack --mode production"
+    "start:prod": "webpack --mode production",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
