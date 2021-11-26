@@ -24,7 +24,7 @@ const server = http.createServer((req, res) => {
     req.method === "POST"
   ) {
     createPerson(req, res);
-  } else if (req.url.match(/\/person\/.{36}$/) && req.method === "PUT") {
+  } else if (req.url.match(/\/person\/.+$/) && req.method === "PUT") {
     const id = req.url.split("/")[2];
     updatePerson(req, res, id);
   } else if (req.url.match(/\/person\/.{36}$/) && req.method === "DELETE") {

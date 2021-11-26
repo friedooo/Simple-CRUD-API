@@ -60,21 +60,26 @@ const createPerson = async (req, res) => {
 
 const updatePerson = async (req, res, id) => {
   try {
-    let person = PersonModel.findById(id);
-    if (!person) {
-      res.writeHead(404, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ message: "Person Not Found" }));
-    } else {
-      let body = "";
-      req.on("data", (chunk) => {
-        body += chunk.toString();
-      });
+    let person = await PersonModel.findById(id);
 
-      req.on("end", async () => {
-        const updPerson = await PersonModel.update(id, JSON.parse(body));
-        res.writeHead(200, { "Content-Type": "application/json" });
-        return res.end(JSON.stringify(updPerson));
-      });
+    if (validator.uuidv4Check(id)) {
+      if (!person) {
+        res.writeHead(404, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ message: "Person Not Found" }));
+      } else {
+        let body = "";
+        req.on("data", (chunk) => {
+          body += chunk.toString();
+        });
+        req.on("end", async () => {
+          const updPerson = await PersonModel.update(id, JSON.parse(body));
+          res.writeHead(200, { "Content-Type": "application/json" });
+          return res.end(JSON.stringify(updPerson));
+        });
+      }
+    } else {
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Bad Request" }));
     }
   } catch (error) {
     console.log(error);

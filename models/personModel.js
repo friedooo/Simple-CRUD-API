@@ -28,7 +28,6 @@ const update = (id, data) => {
     const { name, age, hobbies } = data;
     const index = persons.findIndex((person) => id === person.id);
     persons[index] = { id, ...data };
-    console.log(persons[index]);
     resolve(persons[index]);
   });
 };
