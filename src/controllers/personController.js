@@ -7,7 +7,8 @@ const getAllPersons = async (req, res) => {
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify(persons));
   } catch (error) {
-    console.log(error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "Internal Server Error" }));
   }
 };
 
@@ -28,7 +29,8 @@ const getPerson = async (req, res, id) => {
       res.end(JSON.stringify({ message: "Bad Request" }));
     }
   } catch (error) {
-    console.log(error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "Internal Server Error" }));
   }
 };
 
@@ -54,7 +56,8 @@ const createPerson = async (req, res) => {
       }
     });
   } catch (error) {
-    console.log(error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "Internal Server Error" }));
   }
 };
 
@@ -82,7 +85,8 @@ const updatePerson = async (req, res, id) => {
       res.end(JSON.stringify({ message: "Bad Request" }));
     }
   } catch (error) {
-    console.log(error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "Internal Server Error" }));
   }
 };
 
@@ -104,7 +108,8 @@ const removePerson = async (req, res, id) => {
       res.end(JSON.stringify({ message: "Bad Request" }));
     }
   } catch (error) {
-    console.log(error);
+    res.writeHead(500, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "Internal Server Error" }));
   }
 };
 
