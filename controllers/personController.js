@@ -1,4 +1,5 @@
 const PersonModel = require("../models/personModel");
+const validator = require("../validator");
 
 const getAllPersons = async (req, res) => {
   try {
@@ -41,9 +42,18 @@ const createPerson = async (req, res) => {
     });
 
     req.on("end", async () => {
-      const newPerson = await PersonModel.create(JSON.parse(body));
-      res.writeHead(201, { "Content-Type": "application/json" });
-      return res.end(JSON.stringify(newPerson));
+      if (validator.bodyProps(JSON.parse(body))) {
+        const newPerson = await PersonModel.create(JSON.parse(body));
+        res.writeHead(201, { "Content-Type": "application/json" });
+        return res.end(JSON.stringify(newPerson));
+      } else {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        res.end(
+          JSON.stringify({
+            message: "Request body does not contain required fields",
+          })
+        );
+      }
     });
   } catch (error) {
     console.log(error);
