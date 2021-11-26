@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start:dev": "nodemon server"
+    "start:dev": "nodemon ./src/server",
+    "start:prod": "webpack --mode production && node ./build/bundle"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,8 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1"
   }
 }
