@@ -14,10 +14,8 @@ const getAllPersons = async (req, res) => {
 const getPerson = async (req, res, id) => {
   try {
     const person = await PersonModel.findById(id);
-    const v4 = new RegExp(
-      /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/
-    );
-    if (v4.test(id)) {
+
+    if (validator.uuidv4Check(id)) {
       if (!person) {
         res.writeHead(404, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ message: "Person Not Found" }));
