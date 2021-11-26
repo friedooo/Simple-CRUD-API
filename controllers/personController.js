@@ -90,13 +90,18 @@ const removePerson = async (req, res, id) => {
   try {
     const person = await PersonModel.findById(id);
 
-    if (!person) {
-      res.writeHead(404, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ message: "Person Not Found" }));
+    if (validator.uuidv4Check(id)) {
+      if (!person) {
+        res.writeHead(404, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ message: "Person Not Found" }));
+      } else {
+        await PersonModel.remove(id);
+        res.writeHead(204, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ message: `Person ${id} deleted` }));
+      }
     } else {
-      await PersonModel.remove(id);
-      res.writeHead(204, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ message: `Person ${id} deleted` }));
+      res.writeHead(400, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Bad Request" }));
     }
   } catch (error) {
     console.log(error);
