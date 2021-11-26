@@ -1,7 +1,7 @@
 require("dotenv").config();
 const http = require("http");
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 
 const {
   getAllPersons,
@@ -42,7 +42,7 @@ const server = http.createServer((req, res) => {
   }
 });
 
-server.listen(PORT, () => {
+server.listen(5000, () => {
   console.log(`server is runnig on port ${PORT}`);
 });
 

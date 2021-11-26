@@ -79,4 +79,6 @@ describe("E2E testing ", () => {
     const getAllResponse2 = await request(server).get("/person");
     expect(getAllResponse2.body.length).toBeLessThan(initialLength);
   });
+
+  server.close();
 });
